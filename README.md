@@ -1,4 +1,4 @@
-# ufw-hostname-ddns-updater
+# ufw-ddns-hostname-updater
 Automatically update a UFW rule so that **only the current public IP behind your DDNS hostname** can reach a specific port (TCP/UDP). Ideal for exposing a service (e.g., Home Assistant on a non-standard port) to the internet while restricting access to your own dynamic IP.
 
 > Works with any DDNS provider whose hostname resolves via DNS (example here uses DuckDNS).
@@ -15,6 +15,16 @@ Automatically update a UFW rule so that **only the current public IP behind your
 4. Saves the new IP for next run.
 
 All changes are idempotent and logged to stdout.
+
+---
+
+## Roadmap / TODO
+
+- [ ] Support multiple DDNS hostnames
+- [ ] Add option to `deny` or `limit` rules (not only `allow`)
+- [ ] Config file support instead of editing the script directly
+- [ ] Improve IPv6 handling
+- [ ] Add logging to syslog instead of only stdout
 
 ---
 
