@@ -49,7 +49,7 @@ All changes are idempotent and logged to stdout.
 
 2. **Place the script**
    ```bash
-   sudo install -m 0755 ufw-ddns-allow.sh /usr/local/bin/ufw-ddns-updater.sh
+   sudo install -m 0755 ufw-ddns-updater.sh /usr/local/bin/ufw-ddns-updater.sh
    ```
 
 3. **Configure variables** (inside the script):
@@ -75,25 +75,25 @@ You should see an entry allowing traffic from your current IP to `PORT/PROTO`.
 
 Create a oneshot service:
 ```ini
-# /etc/systemd/system/ufw-ddns-allow.service
+# /etc/systemd/system/ufw-ddns-updater.service
 [Unit]
 Description=Update UFW rule to allow current DDNS IP
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/ufw-ddns-allow.sh
+ExecStart=/usr/local/bin/ufw-ddns-updater.sh
 ```
 
 Create a timer (every 5 minutes, adjust as desired):
 ```ini
-# /etc/systemd/system/ufw-ddns-allow.timer
+# /etc/systemd/system/ufw-ddns-updater.timer
 [Unit]
 Description=Run UFW DDNS updater periodically
 
 [Timer]
 OnBootSec=2min
 OnUnitActiveSec=5min
-Unit=ufw-ddns-allow.service
+Unit=ufw-ddns-updater.service
 
 [Install]
 WantedBy=timers.target
@@ -102,8 +102,8 @@ WantedBy=timers.target
 Enable + start:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now ufw-ddns-allow.timer
-sudo systemctl status ufw-ddns-allow.timer
+sudo systemctl enable --now ufw-ddns-updater.timer
+sudo systemctl status ufw-ddns-updater.timer
 ```
 
 ### Option B: cron
@@ -111,7 +111,7 @@ sudo systemctl status ufw-ddns-allow.timer
 ```bash
 sudo crontab -e
 # Update every 5 minutes
-*/5 * * * * /usr/local/bin/ufw-ddns-allow.sh >> /var/log/ufw-ddns-allow.log 2>&1
+*/5 * * * * /usr/local/bin/ufw-ddns-updater.sh >> /var/log/ufw-ddns-updater.log 2>&1
 ```
 
 ---
